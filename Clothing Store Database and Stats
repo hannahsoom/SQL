@@ -1,0 +1,14 @@
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT, price INTEGER, quantity_sold INTEGER);
+
+INSERT INTO store VALUES
+(1, "Graphic Tees", 27, 38),
+(2, "Distressed Jeans", 68, 33),
+(3, "Hoop Earrings", 12, 43), 
+(4, "Platform Sneakers", 49, 32),
+(5, "Flare Jeans", 63, 29);
+
+SELECT * FROM store
+ORDER BY price;
+
+
+SELECT item, SUM(quantity_sold) FROM store GROUP BY item
