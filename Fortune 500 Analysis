@@ -98,3 +98,9 @@ SELECT company_name, MAX(revenue)
 FROM fortune_companies
 WHERE industry = 'Healthcare';
 
+# Which company in the Retail industry has the highest average tenure and offers healthcare benefits?
+
+SELECT company_name, MAX(avg_employee_tenure)
+FROM fortune_companies
+WHERE industry = "Retail"
+AND healthcare_benefits = 1;
