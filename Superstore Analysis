@@ -27,25 +27,26 @@ VALUES
     (14, 'Cutlery Set', 'Kitchen Supplies', 34.50, 40, 4.4),
     (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
 
-#For this project, I used SQL to query the Superstore database to gain information on the items sold and their prices.
-
-#Using a SELECT statement to order the items by price
+# List all items by price, highest to lowest.
 
 SELECT item_name, price
 FROM superstore
-ORDER BY price;
+ORDER BY price desc;
 
-#Show a statistic about the average price of the items in each category
+# What is the maximum item price for each category?
 
-SELECT avg(price), category
+SELECT MAX(price), category
 FROM superstore
 GROUP BY category;
 
-#Show a statistic about the quantity of in stock Air Purifiers
+# What is the average item price for the Furnishings category?
 
-SELECT SUM(stock_quantity), item_name
+SELECT AVG(price), category
 FROM superstore
-WHERE item_name = 'Air Purifier';
+WHERE category = 'Furnishings';
 
+# What is the price of the Memory Foam Mattress, and how many are in stock?
 
-
+SELECT item_name, price, stock_quantity
+FROM superstore
+WHERE item_name = 'Memory Foam Mattress';
