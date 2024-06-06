@@ -58,49 +58,35 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
-# Analysis:
+# Assign all companies in the Telecommunications industry as having a low, moderate or high PTO allowance.
 
-# Assign all companies in the Technology industry as "Major Employer", "Midsize Employer" or "Small Employer" based on the number of employees.
-
-SELECT company_name,
-CASE
-	WHEN employees >= 100000 THEN "Major Employer"
-    WHEN employees >= 50000 THEN "Midsize Employer"
-    ELSE "Small Employer"
-    END AS company_size
+SELECT company_name, industry, paid_time_off_days,
+CASE WHEN paid_time_off_days > 19 THEN "High"
+WHEN paid_time_off_days > 16 THEN "Moderate"
+ELSE "Low"
+END AS pto_offered
 FROM fortune_companies
-WHERE industry = "Technology";
+WHERE industry = 'Telecommunications';
 
-# Which companies offer at least 10 weeks of maternity leave AND healthcare benefits?
+# Which companies in the Retail industry had a total revenue of $200,000 or higher? Order from highest revenue to lowest.
 
-SELECT company_name
+SELECT company_name, SUM(revenue*1000) AS total_revenue
 FROM fortune_companies
-WHERE 
-	maternity_leave_weeks >= 10
-    AND healthcare_benefits=1;
-
-# Which companies have an average tenure of at least 6 years, and what is their average tenure?
-
-SELECT company_name, ROUND(AVG(avg_employee_tenure)) AS avg_tenure
-FROM fortune_companies
+WHERE industry = 'Retail'
 GROUP BY company_name
-HAVING avg_tenure >= 6;
+HAVING total_revenue > 200000
+ORDER BY total_revenue desc;
 
-# Which company in the Technology industry has the least paid time off, and how many days do they offer?
+# Find the average number of employees in each industry. Order results from highest to lowest.
 
-SELECT company_name, MIN(paid_time_off_days)
+SELECT industry, ROUND(AVG(employees)) AS avg_employees
 FROM fortune_companies
-WHERE industry = 'Technology';
+GROUP BY industry
+ORDER BY avg_employees desc;
 
-# Which company in the Healthcare industry has the highest revenue, and what is their revenue?
+# Which companies offer healthcare benefits and at least 15 weeks of maternity leave?
 
-SELECT company_name, MAX(revenue)
+SELECT company_name, industry, maternity_leave_weeks
 FROM fortune_companies
-WHERE industry = 'Healthcare';
-
-# Which company in the Retail industry has the highest average tenure and offers healthcare benefits?
-
-SELECT company_name, MAX(avg_employee_tenure)
-FROM fortune_companies
-WHERE industry = "Retail"
-AND healthcare_benefits = 1;
+WHERE healthcare_benefits = '1'
+AND maternity_leave_weeks >= 15;
