@@ -1,0 +1,49 @@
+# To complete this project, I downloaded the Spotify data from Kaggle, created a table to insert the data into and performed an analysis on it using SQL.
+
+# Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+# Then, I inserted the Spotify Data .csv into the table.
+
+# Next, I analyzed the data using the following queries.
+
+# Who are the top ten artists, based on popularity?
+SELECT track_name, artist_name, popularity
+FROM BIT_DB.Spotifydata
+ORDER BY popularity DESC
+LIMIT 10;
+
+# How many songs does Olivia Rodrigo have in the top 50 list?
+SELECT COUNT(artist_name)
+FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Olivia Rodrigo';
+
+# How many songs on the top 50 list have a danceability rating of at least 0.75?
+SELECT COUNT(track_name)
+FROM BIT_DB.Spotifydata
+WHERE danceability >= 0.75;
+
+# What is the average popularity percentage of all songs with an energy and danceabilty rating of at least 0.75?
+SELECT AVG(popularity)
+FROM BIT_DB.Spotifydata
+WHERE energy >= 0.75
+AND danceability >= 0.75;
