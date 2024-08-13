@@ -1,0 +1,38 @@
+# The following queries were done with a complex data set using multiple tables to analyze different relationships and statistics.
+
+# Show all customers who are from Norway.
+SELECT * FROM chinook.customers
+WHERE country = 'Norway';
+
+# Find the invoices of all customers from Brazil.
+SELECT inv.InvoiceId, inv.InvoiceDate, inv.BillingCountry, cust.FirstName, cust.LastName
+FROM chinook.invoices AS inv
+LEFT JOIN chinook.customers AS cust
+ON inv.CustomerId = cust.CustomerID
+WHERE inv.BillingCountry = 'Brazil';
+
+# Find all employees who are sales agents.
+SELECT FirstName, LastName, Title
+FROM chinook.employees
+WHERE Title LIKE 'Sales%'
+AND Title <> 'Sales Manager';
+
+# Show all invoices associated with each sales agent.
+SELECT invoices.InvoiceID, emp.FirstName, emp.LastName
+FROM chinook.invoices AS invoices
+LEFT JOIN chinook.customers AS cust
+ON invoices.CustomerId = cust.CustomerId
+LEFT JOIN chinook.employees AS emp
+ON cust.SupportRepId = emp.EmployeeId;
+
+# Find a unique list of billing countries from the Invoice table.
+SELECT DISTINCT BillingCountry
+FROM chinook.invoices
+ORDER BY BillingCountry;
+
+# Write a query that includes the purchased track name with each invoice line ID.
+SELECT invIt.InvoiceLineId, tracks.TrackId, tracks.Name
+FROM chinook.invoice_items AS invIt
+LEFT JOIN chinook.tracks AS tracks
+ON invIt.TrackId = tracks.TrackId
+ORDER BY invIt.InvoiceLineId;
